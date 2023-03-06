@@ -1,6 +1,5 @@
 import logging
 import numpy as np
-import os
 import sys
 import threading
 
@@ -11,7 +10,6 @@ def get_height(nodes: np.array, height_array: np.array, node_index: int):
 
     if current_height != 0:
         return current_height
-
     if current_node == -1:
         height_array[node_index] = 1
     else:
@@ -30,21 +28,21 @@ def find_max_height(nodes: np.ndarray, node_count: int):
 
 
 def main():
-    method: str = input("Input method I - manual input, F - files: ")[0]
+    method: str = input()[0]
     # method: str = "F"
     logger = logging.getLogger(__name__)
     match method:
         case "I":
             try:
-                node_count = int(input("Input node count: "))
-                input_values: str = input("Input node parent values: ")
+                node_count = int(input())
+                input_values: str = input()
                 tree_values = input_values.split(" ")
                 if len(tree_values) != node_count:
                     raise ValueError("Error: node parent count does not match inputted node count")
             except ValueError as error:
                 logger.error(error)
         case "F":
-            file_name: str = input("Input file name")
+            file_name: str = input()
 
             # i: int = 1
             # while os.path.isfile(file_path + str(i).zfill(2)):
