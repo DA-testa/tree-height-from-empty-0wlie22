@@ -44,7 +44,7 @@ def main():
             except ValueError as error:
                 logger.error(error)
         case "F":
-            file_name: str = "test/" + input()
+            file_name: str = input("Input file name")
 
             # i: int = 1
             # while os.path.isfile(file_path + str(i).zfill(2)):
@@ -61,9 +61,9 @@ def main():
             #
             #     i += 1
             if "a" in file_name:
-                print("wrong file name")
+                print("wrong file name: ")
             else:
-                with open(file_name.zfill(2), 'r') as file:
+                with open("test/" + file_name.zfill(2), 'r') as file:
                     node_count: int = int(file.readline())
                     nodes: np.ndarray = np.array(list(map(int, file.readline().split(" "))))
                     print(find_max_height(nodes, node_count))
