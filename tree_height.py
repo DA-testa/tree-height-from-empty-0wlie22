@@ -46,7 +46,7 @@ def main():
         case "F":
             file_name: str = "test/" + input()
 
-            i: int = 1
+            # i: int = 1
             # while os.path.isfile(file_path + str(i).zfill(2)):
             #     with open(file_path + str(i).zfill(2), 'r') as file:
             #         node_count: int = int(file.readline())
@@ -63,7 +63,7 @@ def main():
             if "a" in file_name:
                 print("wrong file name")
             else:
-                with open(file_name, 'r') as file:
+                with open(file_name.zfill(2), 'r') as file:
                     node_count: int = int(file.readline())
                     nodes: np.ndarray = np.array(list(map(int, file.readline().split(" "))))
                     print(find_max_height(nodes, node_count))
