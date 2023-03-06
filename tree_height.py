@@ -28,22 +28,24 @@ def find_max_height(nodes: np.ndarray, node_count: int):
 
 
 def main():
-    method: str = input()[0]
+    method: str = input("Input method F - from files, I - manual: ")[0]
+    nodes: np.ndarray
+    node_count: int
     # method: str = "F"
     logger = logging.getLogger(__name__)
     match method:
         case "I":
             try:
-                node_count = int(input())
-                input_values: str = input()
-                tree_values = list(map(input_values.split(" ")))
-                if len(tree_values) != node_count:
+                node_count = int(input("Input node count: "))
+                input_values: str = input("Input node parents: ")
+                nodes = np.array(list(map(int, input_values.split(" "))))
+                if len(nodes) != node_count:
                     raise ValueError("Error: node parent count does not match inputted node count")
+
             except ValueError as error:
                 logger.error(error)
         case "F":
-            file_name: str = input()
-
+            file_name: str = input("Input file name: ")
             # i: int = 1
             # while os.path.isfile(file_path + str(i).zfill(2)):
             #     with open(file_path + str(i).zfill(2), 'r') as file:
@@ -62,9 +64,9 @@ def main():
                 print("wrong file name: ")
             else:
                 with open("test/" + file_name.zfill(2), 'r') as file:
-                    node_count: int = int(file.readline())
-                    nodes: np.ndarray = np.array(list(map(int, file.readline().split(" "))))
-                    print(find_max_height(nodes, node_count))
+                    node_count = int(file.readline())
+                    nodes = np.array(list(map(int, file.readline().split(" "))))
+    print(find_max_height(nodes, node_count))
 
 
 sys.setrecursionlimit(10 ** 7)
