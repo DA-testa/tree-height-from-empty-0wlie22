@@ -1,30 +1,74 @@
-# python3
-
+import logging
+import numpy as np
+import os
 import sys
 import threading
 
 
-def compute_height(n, parents):
-    # Write this function
-    max_height = 0
-    # Your code here
-    return max_height
+def get_height(nodes: np.array, height_array: np.array, node_index: int):
+    current_node = nodes[node_index]
+    current_height = height_array[node_index]
+
+    if current_height != 0:
+        return current_height
+
+    if current_node == -1:
+        height_array[node_index] = 1
+    else:
+        height_array[node_index] = get_height(nodes, height_array, nodes[node_index]) + 1
+
+    return height_array[node_index]
+
+
+def find_max_height(nodes: np.ndarray, node_count: int):
+    height_array = np.zeros(node_count)
+
+    for i in range(node_count):
+        get_height(nodes, height_array, i)
+
+    return int(max(height_array))
 
 
 def main():
-    # implement input form keyboard and from files
-    
-    # let user input file name to use, don't allow file names with letter a
-    # account for github input inprecision
-    
-    # input number of elements
-    # input values in one variable, separate with space, split these values in an array
-    # call the function and output it's result
+    method: str = input("Input method I - manual input, F - files: ")[0]
+    # method: str = "F"
+    logger = logging.getLogger(__name__)
+    match method:
+        case "I":
+            try:
+                node_count = int(input("Input node count: "))
+                input_values: str = input("Input node parent values: ")
+                tree_values = input_values.split(" ")
+                if len(tree_values) != node_count:
+                    raise ValueError("Error: node parent count does not match inputted node count")
+            except ValueError as error:
+                logger.error(error)
+        case "F":
+            file_name: str = "test/" + input()
+
+            i: int = 1
+            # while os.path.isfile(file_path + str(i).zfill(2)):
+            #     with open(file_path + str(i).zfill(2), 'r') as file:
+            #         node_count: int = int(file.readline())
+            #         nodes: np.ndarray = np.array(list(map(int, file.readline().split(" "))))
+            #         result: int = find_max_height(nodes, node_count)
+            #     with open(file_path + str(i).zfill(2) + ".a", 'r') as file:
+            #         answer: str = file.read().rstrip()
+            #     if str(result) == str(answer):
+            #         print(f"-> Test {i} passed!")
+            #     else:
+            #         print(f"-> Test {i} failed: expected '{answer}', got {result} instead")
+            #
+            #     i += 1
+            if "a" in file_name:
+                print("wrong file name")
+            else:
+                with open(file_name, 'r') as file:
+                    node_count: int = int(file.readline())
+                    nodes: np.ndarray = np.array(list(map(int, file.readline().split(" "))))
+                    print(find_max_height(nodes, node_count))
 
 
-# In Python, the default limit on recursion depth is rather low,
-# so raise it here for this problem. Note that to take advantage
-# of bigger stack, we have to launch the computation in a new thread.
-sys.setrecursionlimit(10**7)  # max depth of recursion
-threading.stack_size(2**27)   # new thread will get stack of such size
+sys.setrecursionlimit(10 ** 7)
+threading.stack_size(2 ** 27)
 threading.Thread(target=main).start()
