@@ -36,7 +36,7 @@ def main():
             try:
                 node_count = int(input())
                 input_values: str = input()
-                tree_values = input_values.split(" ")
+                tree_values = list(map(input_values.split(" ")))
                 if len(tree_values) != node_count:
                     raise ValueError("Error: node parent count does not match inputted node count")
             except ValueError as error:
